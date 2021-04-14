@@ -11,9 +11,7 @@ const
         try {
             let sql = "SELECT * FROM Product";
             let query = conn.query(sql, (err, result) => {
-                // console.log(result)
                 if (err) throw err;
-                // return res.json({ status: 200, error: null, response: result });
                 return res.json(result);
             });
         } catch (err) {

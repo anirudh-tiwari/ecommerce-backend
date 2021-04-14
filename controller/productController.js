@@ -9,7 +9,7 @@ const conn = mysql.createConnection({
 const
     registerProduct = (req, res) => {
         try {
-            let data = { IMAGE: req.body.IMAGE, NAME: req.body.NAME, TYPE: req.body.TYPE, ORIGINAL_PRICE: req.body.ORIGINAL_PRICE, DISCOUNT_PRICE: req.body.DISCOUNT_PRICE, DESCRIPTION: req.body.DESCRIPTION };
+            let data = { IMAGE: req.body.IMAGE, NAME: req.body.NAME, ORIGINAL_PRICE: req.body.ORIGINAL_PRICE, DISCOUNT_PRICE: req.body.DISCOUNT_PRICE, DESCRIPTION: req.body.DESCRIPTION };
             let sql = "INSERT INTO Product SET ?";
             let query = conn.query(sql, data, (err, result) => {
                 console.log(result)
