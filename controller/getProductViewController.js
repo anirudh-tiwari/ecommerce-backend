@@ -1,4 +1,5 @@
 const mysql = require("mysql");
+var async = require('async');
 const conn = mysql.createConnection({
     host: "localhost",
     user: "ani",
@@ -7,14 +8,22 @@ const conn = mysql.createConnection({
 });
 
 const getProductView = (req, res) => {
+    var queryParameter = req.query.ID;
     try {
-        let queryParameter = req.query.Name;
-        let sql = `SELECT * FROM Product where NAME = "${queryParameter}"`;
-        let query = conn.query(sql, (err, result) => {
-            console.log("SQL HERER====>", queryParameter)
+        let queryParameter = req.query.ID;
+        let sql = `select * FROM Product WHERE id=${queryParameter};`;
+        conn.query(sql, (err, result) => {
             if (err) throw err;
-            // return res.json({ status: 200, error: null, response: result });
-            return res.json(result);
+            let response = result[0]
+            let sql = `select t.TAG as tagName from Tags t, Product_Tags pt where pt.PRODUCT_ID= ${queryParameter} and pt.TAGS_ID=t.id`;
+            conn.query(sql, (err, resultTag) => {
+                const tags = resultTag.map(tag => {
+                    return tag.tagName
+                })
+                if (err) throw err;
+                response["tags"] = tags
+                return res.json(response);
+            });
         });
     } catch (err) {
         console.log(err)
