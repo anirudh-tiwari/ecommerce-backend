@@ -8,6 +8,7 @@ const conn = mysql.createConnection({
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 const JWT_AUTH_TOKEN = process.env.JWT_AUTH_TOKEN;
+const JWT_REFRESH_TOKEN = process.env.JWT_REFRESH_TOKEN;
 
 
 
@@ -25,14 +26,14 @@ const verifyController = async (req, res) => {
     let data = `${mobile_number}.${otp}.${expires}`;
     let hashCompare = await bcrypt.compare(data,hashValue) ;
     if(hashCompare){
-        return  res.status(202).send({ verification: true, msg: "Correct OTP" })
+        const accessToken = jwt.sign(mobile_number, JWT_AUTH_TOKEN);
+        const refreshToken = jwt.sign(mobile_number, JWT_REFRESH_TOKEN);
+        res.status(202).send({ verification: true, msg: "Correct OTP" , accessToken , refreshToken })
     }else{
         return res.status(400).send({ verification: false, msg: "Incorrect OTP" })
     }
 
     // if(hashCompare){
-    //     const accessToken = jwt.sign(mobile_number, JWT_AUTH_TOKEN);
-    //     const refreshToken = jwt.sign(mobile_number, JWT_REFRESH_TOKEN);
     //     res.status(202).cookie("accessToken", accessToken, { httpOnly: true }).cookie("refreshToken", refreshToken, { httpOnly: true }).send({ msg: "User Confirmed" })
     //   }  else {
     //             return res.status(400).send({ verification: false, msg: "Incorrect OTP" })

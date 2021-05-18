@@ -19,14 +19,14 @@ const sendController = async (req, res) => {
 
         const mobile_number = req.body.mobile_number;
         const otp = otpGenerator.generate(4, { alphabets: false, upperCase: false, specialChars: false });
-        const ttl = 5 * 60 * 1000;
+        const ttl = 500000000000 * 60 * 1000;
         const expires = Date.now() + ttl;
         const data = `${mobile_number}.${otp}.${expires}`;
         // const hash = crypto.createHmac("sha256", SMS_SECRET_KEY).update(data).digest("hex");
         const hash = await bcrypt.hash(data, 10);
         const fullHash = `${hash}.${expires}`;
         
-        var options = {authorization : API_KEY , message : `Your OTP number is ${otp}` ,  numbers : [req.body.mobile_number]} 
+        var options = {authorization : API_KEY , message : `Use ${otp} as your verification code on Anirudh Store. The otp expires within 5 minutes. ` ,  numbers : [req.body.mobile_number]} 
         fast2sms.sendMessage(options)
         
         // res.cookie("otp_status", "checking OTP")
