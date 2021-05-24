@@ -26,7 +26,7 @@ const sendController = async (req, res) => {
         const hash = await bcrypt.hash(data, 10);
         const fullHash = `${hash}.${expires}`;
         
-        var options = {authorization : API_KEY , message : `Use ${otp} as your verification code on Anirudh Store. The otp expires within 5 minutes. ` ,  numbers : [req.body.mobile_number]} 
+        var options = {authorization : API_KEY , message : `Welcome to ANIRUDH STORE . Use ${otp} as your verification code , otp will expire within 5 minutes. ` ,  numbers : [req.body.mobile_number]} 
         fast2sms.sendMessage(options)
         
         // res.cookie("otp_status", "checking OTP")

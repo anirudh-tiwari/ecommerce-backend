@@ -1,6 +1,7 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
+
 var createError = require('http-errors');
 var express = require('express');
 var cors = require('cors')
@@ -8,10 +9,12 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+
 var indexRouter = require('./routes/index');
 var aboutRouter = require('./routes/about');
 var imageRouter = require('./routes/image');
 var productRouter = require('./routes/product');
+var cartRouter = require('./routes/cart');
 var otp = require('./routes/otp');
 
 var app = express();
@@ -31,6 +34,7 @@ app.use('/', indexRouter);
 app.use('/about', aboutRouter);
 app.use('/image', imageRouter);
 app.use('/product', productRouter);
+app.use('/cart', cartRouter);
 app.use('/otp', otp);
 
 // catch 404 and forward to error handler

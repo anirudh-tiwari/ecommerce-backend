@@ -1,9 +1,9 @@
 const mysql = require("mysql");
 const conn = mysql.createConnection({
     host: "localhost",
-    user: "anirudh",
+    user: "ani",
     password: "suman1979",
-    database: "tracker",
+    database: "ecommerce",
 });
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
@@ -25,19 +25,32 @@ const verifyController = async (req, res) => {
     }
     let data = `${mobile_number}.${otp}.${expires}`;
     let hashCompare = await bcrypt.compare(data,hashValue) ;
+    // let id = 
     if(hashCompare){
-        const accessToken = jwt.sign(mobile_number, JWT_AUTH_TOKEN);
-        const refreshToken = jwt.sign(mobile_number, JWT_REFRESH_TOKEN);
-        res.status(202).send({ verification: true, msg: "Correct OTP" , accessToken , refreshToken })
+        let mobileValueSql = `select ID from User where MOBILE_NUMBER=${mobile_number}`;
+        let query = conn.query(mobileValueSql, (err, result) => {
+            if (err) throw err;
+        if(!result.length){
+            let data = { MOBILE_NUMBER: mobile_number};
+            let sql = 'INSERT INTO User SET ?';
+            let query = conn.query(sql, data, (err, result) => {
+                if (err) throw err;                                                                                      
+            });
+        }
+        });
+        let id= `select ID from User where MOBILE_NUMBER=${mobile_number}`;
+        let query2 = conn.query(id, (err, result) => {
+            if (err) throw err;
+            // return res.json(result);
+            const accessToken = jwt.sign({mobile_number,user_id:result[0].ID}, JWT_AUTH_TOKEN);
+            const refreshToken = jwt.sign(mobile_number, JWT_REFRESH_TOKEN);
+            res.status(202).send({ verification: true, msg: "Correct OTP" , accessToken , refreshToken })
+        });
+        // const accessToken = jwt.sign(mobile_number, JWT_AUTH_TOKEN);
     }else{
         return res.status(400).send({ verification: false, msg: "Incorrect OTP" })
     }
-
-    // if(hashCompare){
-    //     res.status(202).cookie("accessToken", accessToken, { httpOnly: true }).cookie("refreshToken", refreshToken, { httpOnly: true }).send({ msg: "User Confirmed" })
-    //   }  else {
-    //             return res.status(400).send({ verification: false, msg: "Incorrect OTP" })
-    //         }
 }
 
-module.exports = { verifyController }
+module.exports = { verifyController }      
+
