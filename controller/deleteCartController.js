@@ -9,7 +9,7 @@ const conn = mysql.createConnection({
 const
  deleteCart = (req, res) => {
         try {
-            let sql = `DELETE FROM Cart WHERE PRODUCT_ID=${req.body.PRODUCT_ID} AND USER_ID=${req.user.USER_ID}`;
+            let sql = `DELETE FROM Cart WHERE PRODUCT_ID=${req.body.PRODUCT_ID} AND USER_ID=${req.user.user_id}`;
 	        let query = conn.query(sql, (err, result) => {
 	        	if (err) throw err;
 		        res.send(JSON.stringify({ status: 200, error: null, response: "Record deleted successfully" }));

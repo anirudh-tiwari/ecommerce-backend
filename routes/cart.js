@@ -3,12 +3,13 @@ const router = express.Router();
 const { createCart } = require("../controller/createCartController")
 const { getCart } = require("../controller/getCartController")
 const { deleteCart } = require("../controller/deleteCartController")
+const { subtractQuantityCart } = require("../controller/subtractQuantityCartController")
+const { addQuantityCart } = require("../controller/addQuantityCart")
 const jwt = require("jsonwebtoken");
 const JWT_AUTH_TOKEN = process.env.JWT_AUTH_TOKEN;
 const jwt_decode = require('jwt-decode');
 
 const auth =  (req, res , next) => {
-
     const authHeader = req.headers['authorization']
     const accessToken = authHeader && authHeader.split(' ')[1]
 
@@ -31,8 +32,10 @@ const auth =  (req, res , next) => {
 }
 
 router.post("/create", auth , createCart);
-router.get("/get", getCart);
-router.get("/delete", deleteCart);
+router.get("/get",auth , getCart);
+router.delete("/delete", auth , deleteCart);
+router.post("/addQuantity", auth , addQuantityCart);
+router.post("/subtractQuantity", auth , subtractQuantityCart);
 
 
 module.exports = router;

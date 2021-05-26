@@ -9,7 +9,7 @@ const conn = mysql.createConnection({
 const
     getCart = (req, res) => {
         try {
-            let sql = `SELECT * FROM Cart WHERE USER_ID=${req.user.USER_ID}`;
+            let sql = ` select c.QUANTITY,p.IMAGE,p.NAME,p.ORIGINAL_PRICE,p.DISCOUNT_PRICE from Cart c, Product p where c.PRODUCT_ID=p.ID and USER_ID=${req.user.user_id}`;
 	        let query = conn.query(sql, (err, result) => {
 		     if (err) throw err;
 		    res.send(JSON.stringify({ status: 200, error: null, response: result }));
