@@ -7,7 +7,8 @@ const conn = mysql.createConnection({
 });
 
 const
-    getProduct = (req, res) => {
+    
+getProduct = (req, res) => {
         try {
             let sql = "SELECT * FROM Product";
             let query = conn.query(sql, (err, result) => {

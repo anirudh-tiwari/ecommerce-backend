@@ -8,10 +8,12 @@ const conn = mysql.createConnection({
 
 const addQuantityCart = (req, res) => {
         try {
-            let sql = `update Cart set QUANTITY=${req.body.QUANTITY+1} where PRODUCT_ID=${req.body.PRODUCT_ID} and USER_ID=${req.user.user_id}`;
+            let sql = `update Cart set QUANTITY=QUANTITY+1 where PRODUCT_ID=${req.body.PRODUCT_ID} and USER_ID=${req.user.user_id}`;
+            // let sql = `update Cart set QUANTITY=${req.body.QUANTITY+1} where PRODUCT_ID=${req.body.PRODUCT_ID} and USER_ID=${req.user.user_id}`;
             let query = conn.query(sql, (err, result) => {
                 if (err) throw err;
-                return res.json({ status: 200, error: null, response: "New Record is Added successfully" });
+                return res.json(result)
+                // return res.json({ status: 200, error: null, response: "New Record is Added successfully" });
             });
         } catch (err) {
             console.log(err)

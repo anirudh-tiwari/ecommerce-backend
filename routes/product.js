@@ -24,7 +24,6 @@ const auth =  (req, res , next) => {
             let decoded = jwt_decode(accessToken);
             req.user = decoded
         })
-        console.log(decoded)
         next()
     }
     catch(e){
