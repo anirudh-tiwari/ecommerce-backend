@@ -19,7 +19,7 @@ const getProductView = async (req, res) => {
         let productQuery = `select * FROM Product WHERE id=${queryParameter};`;
         let product = await query(productQuery)
         result = product[0]
-        let tagQuery = `select t.TAG as tagName from Tags t, Product_Tags pt where pt.PRODUCT_ID= ${queryParameter} and pt.TAGS_ID=t.id`;
+        let tagQuery = `select t.TAG as tagName from Tags t, Product_Tags pt where pt.PRODUCT_ID=${queryParameter} and pt.TAGS_ID=t.id`;
         let tags = await query(tagQuery)  
         const tagsData = tags.map(tag => {
             return tag.tagName

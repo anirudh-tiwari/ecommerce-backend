@@ -7,17 +7,17 @@ const conn = mysql.createConnection({
 });
 
 const
-    getCart = (req, res) => {
+ emptyCart = (req, res) => {
         try {
-            let sql = ` select c.QUANTITY,p.ID,p.IMAGE,p.DISCOUNT_PRICE*c.QUANTITY as actualPrice,p.NAME,p.ORIGINAL_PRICE,p.DISCOUNT_PRICE from Cart c, Product p where c.PRODUCT_ID=p.ID and USER_ID=${req.user.user_id} `;
+            let sql = `DELETE FROM Cart WHERE USER_ID=${req.user.user_id}`;
 	        let query = conn.query(sql, (err, result) => {
-		     if (err) throw err;
-		    res.send(result);
-	});
+	        	if (err) throw err;
+		        res.send(JSON.stringify({ status: 200, error: null, response: "Record deleted successfully" }));
+	        });
         } catch (err) {
             console.log(err)
             return res.json({ status: 500, error: err });
         }
     }
 
-module.exports = { getCart }  
+module.exports = { emptyCart }           

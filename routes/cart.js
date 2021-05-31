@@ -3,8 +3,8 @@ const router = express.Router();
 const { createCart } = require("../controller/createCartController")
 const { getCart } = require("../controller/getCartController")
 const { deleteCart } = require("../controller/deleteCartController")
-const { subtractQuantityCart } = require("../controller/subtractQuantityCartController")
-const { addQuantityCart } = require("../controller/addQuantityCart")
+const { emptyCart } = require("../controller/emptyCart")
+const { QuantityCart } = require("../controller/quantityController")
 const jwt = require("jsonwebtoken");
 const JWT_AUTH_TOKEN = process.env.JWT_AUTH_TOKEN;
 const jwt_decode = require('jwt-decode');
@@ -34,8 +34,8 @@ const auth =  (req, res , next) => {
 router.post("/create", auth , createCart);
 router.get("/get",auth , getCart);
 router.delete("/delete", auth , deleteCart);
-router.post("/addQuantity", auth , addQuantityCart);
-router.post("/subtractQuantity", auth , subtractQuantityCart);
+router.delete("/empty", auth , emptyCart);
+router.post("/Quantity", auth , QuantityCart);
 
 
 module.exports = router;

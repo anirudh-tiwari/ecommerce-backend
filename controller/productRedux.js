@@ -7,9 +7,10 @@ const conn = mysql.createConnection({
 });
 
 const
-    getCart = (req, res) => {
+productRedux = (req, res) => {
         try {
-            let sql = ` select c.QUANTITY,p.ID,p.IMAGE,p.DISCOUNT_PRICE*c.QUANTITY as actualPrice,p.NAME,p.ORIGINAL_PRICE,p.DISCOUNT_PRICE from Cart c, Product p where c.PRODUCT_ID=p.ID and USER_ID=${req.user.user_id} `;
+            let queryParameter = req.query.ID;
+            let sql = ` select c.QUANTITY,p.ID,p.IMAGE,p.DISCOUNT_PRICE as actualPrice,p.NAME,p.ORIGINAL_PRICE,p.DISCOUNT_PRICE from Cart c,Product p WHERE p.ID=${queryParameter} and c.PRODUCT_ID=${queryParameter} and USER_ID=${req.user.user_id} `;
 	        let query = conn.query(sql, (err, result) => {
 		     if (err) throw err;
 		    res.send(result);
@@ -20,4 +21,4 @@ const
         }
     }
 
-module.exports = { getCart }  
+module.exports = { productRedux }  

@@ -7,10 +7,10 @@ const conn = mysql.createConnection({
 });
 
 const
-    
 getProduct = (req, res) => {
         try {
-            let sql = "SELECT * FROM Product";
+            // let sql="select ID,IMAGE,NAME,ORIGINAL_PRICE,DISCOUNT_PRICE,DESCRIPTION,DISCOUNT_PRICE as actualPrice from Product"
+            let sql="select * from Product"
             let query = conn.query(sql, (err, result) => {
                 if (err) throw err;
                 return res.json(result);

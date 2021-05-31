@@ -13,8 +13,7 @@ const
             let sql = "INSERT INTO Cart SET ?";
             let query = conn.query(sql, data, (err, result) => {
                 if (err) throw err;
-		        res.send(result);
-                // return res.json({ status: 200, error: null, response: "New Record is Added successfully" });
+                return res.json({ status: 200, error: null, response: "New Record is Added successfully" });
             });
         } catch (err) {
             console.log(err)

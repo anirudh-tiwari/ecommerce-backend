@@ -4,6 +4,7 @@ const { registerProduct } = require("../controller/productController")
 const { getProduct } = require("../controller/getProductController")
 const { getProductView } = require("../controller/getProductViewController")
 const { getSearchProduct } = require("../controller/getSearchProductController")
+const { productRedux } = require("../controller/productRedux")
 const jwt = require("jsonwebtoken");
 const JWT_AUTH_TOKEN = process.env.JWT_AUTH_TOKEN;
 const jwt_decode = require('jwt-decode');
@@ -33,6 +34,7 @@ const auth =  (req, res , next) => {
 
 router.post("/create", registerProduct);
 router.get("/get",auth, getProduct);
+router.get("/redux",auth, productRedux);
 router.get("/view", getProductView);
 router.get("/search", getSearchProduct);
 
